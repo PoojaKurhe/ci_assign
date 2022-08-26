@@ -29,4 +29,4 @@ jobs:
           context: .
           file: ./Downloads/examples/guestbook-go
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/examples:latest
