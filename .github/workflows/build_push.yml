@@ -26,7 +26,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./DockerFile
+          file: ./examples/guestbook_go/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/examples:latest
 
