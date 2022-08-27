@@ -15,7 +15,7 @@ spec:
             containers:
                 - name: example-api
                   imagePullPolicy: Never
-                  image: shraddhagaikwad52/examples:latest
+                  image: gaikwadpooja993/examples:latest
                   resources:
                       limits:
                           cpu: 50m
