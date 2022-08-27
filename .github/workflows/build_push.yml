@@ -37,7 +37,11 @@ jobs:
         kubectl apply -f deployment.yaml
     - name: Test service URLs
       run: |
-        minikube service list
-        minikube service discover --url
-        echo -n "------------------opening the service------------------"
-        curl $(minikube service discover --url)/version
+        minikube delete
+        minikube start --driver=docker
+        kubectl apply -f ddeploy-to-minikube.yaml
+        kubectl get svc -A
+        minikube service example
+        minikube service example --url
+        echo "------------------opening the service------------------"
+        curl $(minikube service example --url)   
