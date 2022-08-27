@@ -1,33 +1,28 @@
-name: ci
+name: Docker Image CI
 
 on:
   push:
-    branches:
-      - 'master'
-
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+env:
+  DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+  DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+  
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    
+  push-image-to-docker-hub:  # job name
+    runs-on: ubuntu-latest  # runner name : (ubuntu latest version) 
     steps:
-      -
-        name: Checkout 
-        uses: actions/checkout@v2
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      -
-        name: Build and push
-         working-directory:guestbook-go
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ci_assign:latest    
+    - uses: actions/checkout@v2 # first action : checkout source code
+    - name: docker login
+      run: | # log into docker hub account
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+    - name: Get current date # get the date of the build
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
+    - name: Build the Docker image # push The image to the docker hub
+      working-directory: guestbook-go
+      run: docker build . --file Dockerfile --tag $DOCKER_USER/examples:latest
+      #run: docker build . --file Dockerfile --tag $DOCKER_USER/$REPO_NAME:${{ steps.date.outputs.date }}
+    - name: Docker Push
+      run: docker push $DOCKER_USER/ci_assign:latest
