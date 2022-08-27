@@ -34,10 +34,10 @@ jobs:
       run: kubectl get pods -A
     - name: Deploy to minikube
       run:
-        kubectl apply -f deployment.yaml
+        kubectl apply -f deploy/deploy-minikube.yaml
     - name: Test service URLs
       run: |
         minikube service list
-        minikube service example --url
-        echo "------------------opening the service------------------"
-        curl $(minikube service example --url)   
+        minikube service discover --url
+        echo -n "------------------opening the service------------------"
+        curl $(minikube service discover --url)/version
