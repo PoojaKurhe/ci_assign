@@ -40,11 +40,7 @@ jobs:
         minikube delete
         minikube start --driver=docker
         kubectl apply -f deployment.yaml
-    - name: Default browser    
-    - uses: abhi1693/setup-browser@v0.3.4
-      with:
-       browser: chrome
-       version: latest
+   
         kubectl get svc -A
         minikube service example
         minikube service example --url
