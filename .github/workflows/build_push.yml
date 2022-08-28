@@ -44,6 +44,6 @@ jobs:
         kubectl get svc -A
         minikube service example
         minikube service example --url
-        xdg-mime default safari.desktop x-scheme-handler/https
+    
         echo "------------------opening the service------------------"
         curl $(minikube service example --url)   
