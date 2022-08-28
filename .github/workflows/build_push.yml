@@ -46,6 +46,7 @@ jobs:
         minikube service example --url
     
         echo "------------------opening the service------------------"
+        
+        curl $(minikube service example --url)   
         export BROWSER=/usr/bin/firefox
         export DISPLAY=:0
-        curl $(minikube service example --url)   
